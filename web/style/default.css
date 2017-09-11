@@ -1,0 +1,80 @@
+/***********************
+*                      *
+*  STANDARD COLORS     *
+*                      *
+*  #607E7E --> light   *
+*  #436666   ^         *
+*  #2F4F4F   |         *
+*  #1B3E3E   |         *
+*  #0E3232 --> Dark    *
+*                      *
+************************/
+
+/* STANDAARD BODY */
+body{
+    background-color: #607E7E;
+    color: #0E3232;
+    font-family: Arial,sans-serif;
+}
+
+h1{
+    color: #2F4F4F;
+    font-weight: bold;
+    font-size: 2.5em;
+}
+
+label{
+
+}
+
+input{
+
+}
+
+input[type="submit"]{
+
+}
+
+img{
+
+}
+/****************************/
+
+/* MENU */
+nav ul {
+    background-color: #1B3E3E;
+    padding: 0.4em;
+    display: inline-block;
+    color: #607E7E;
+}
+
+nav li {
+    display: inline;
+}
+
+nav li a {
+    color: #607E7E;
+    font-weight: bold;
+    text-decoration: none;
+    vertical-align: middle;
+    padding: 0.2em;
+}
+
+nav li a:hover {
+    color: #436666;
+}
+
+.menuLogo{
+    float: right;
+}
+/****************************/
+
+/* LANGUAGES BAR */
+.languages{
+    margin-top: 15px;
+}
+.languages img{
+    border: 0;
+    margin-left: 15px;
+}
+/****************************/
