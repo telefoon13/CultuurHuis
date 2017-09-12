@@ -48,6 +48,17 @@ a:hover{
 a:active{
     color: #0E3232;
 }
+dd, dt {
+    margin-left: 0;
+}
+
+dt {
+    margin-top: 0.5em;
+}
+
+dd {
+    font-weight: bold;
+}
 /****************************/
 
 /* MENU */
@@ -117,10 +128,22 @@ nav li a:hover {
 }
 /****************************/
 
-/* LANGUAGES BAR */
+/* Performances table */
+.performancesTable{
+    border: 1px solid #0E3232;
+    width: 100%;
+}
+.tableTitle{
+    background-color: #0E3232;
+    color: #607E7E;
+    height: 1.5em;
+    border: 1px solid #0E3232;
+}
 .tableDark{
     background-color: #2F4F4F;
+    height: 1em;
 }
 .tableLight {
     background-color: #436666;
+    height: 1em;
 }

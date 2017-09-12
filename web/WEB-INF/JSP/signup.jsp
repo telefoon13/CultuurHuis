@@ -10,7 +10,6 @@
     <vdab:head title="${titel}"/>
 </head>
 <body>
-<vdab:languages/>
 <vdab:menu/>
 <h1>${titel}</h1>
 

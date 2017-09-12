@@ -17,15 +17,15 @@
                     <li><a href="<c:url value="/login.htm"/>"><fmt:message key="login"/></a></li>
                     <li><a href="<c:url value="/signup.htm"/>"><fmt:message key="signup"/></a></li>
                 </c:when>
-                <c:when test="${basket ne null}">
-                    <li><a href="<c:url value="/reservebasket.htm"/>"><fmt:message key="reserveBasket"/></a></li>
-                </c:when>
                 <%-- Met inlog session --%>
                 <c:when test="${user.gebruikersnaam ne null}">
                     <li><a href="<c:url value="/reservations.htm"/>"><fmt:message key="reservations"/></a></li>
                     <li><a href="<c:url value="/login.htm?logout=logout"/>"><fmt:message key="logout"/></a></li>
                 </c:when>
             </c:choose>
+            <c:if test="${basket ne null}">
+                <li><a href="<c:url value="/reserveBasket.htm"/>"><fmt:message key="reserveBasket"/></a></li>
+            </c:if>
         </ul>
     </nav>
 </header>

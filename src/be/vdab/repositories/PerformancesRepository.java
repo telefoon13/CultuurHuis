@@ -2,6 +2,7 @@ package be.vdab.repositories;
 
 import be.vdab.enteties.Genre;
 import be.vdab.enteties.Performance;
+import be.vdab.enteties.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class PerformancesRepository extends AbstractRepository {
 
 	private static final String FIND_ALL_GENRES = "SELECT * FROM genres";
 	private static final String FIND_GENRE_BY_ID = "SELECT * FROM genres WHERE id = ?";
-	private static final String FIND_PERFORMANCE_BY_GENRE = "SELECT * FROM performances WHERE genreid = ?";
+	private static final String FIND_PERFORMANCE_BY_GENRE = "SELECT * FROM performances WHERE genreid = ? AND date >= NOW() ORDER BY date ASC ";
 	private static final String FIND_PERFORMANCE_BY_ID = "SELECT * FROM performances WHERE id = ?";
 
 	public List<Genre> findAllGenres(){
@@ -42,12 +43,46 @@ public class PerformancesRepository extends AbstractRepository {
 					long id = resultSet.getLong("id");
 					if (id != vorigeId) {
 						performances.add(new Performance(resultSet.getLong("id"), resultSet.getString("title"), resultSet.getString("performers"),
-								resultSet.getDate("date"), resultSet.getLong("genreid"), resultSet.getDouble("price"),
+								resultSet.getString("date"), resultSet.getLong("genreid"), resultSet.getDouble("price"),
 								resultSet.getInt("freeseats")));
 						vorigeId = id;
 					}
 				}
 				return performances;
+			}
+		} catch (SQLException ex) {
+			throw new RepositoryException(ex);
+		}
+	}
+
+	public String findGenreById(long id){
+		try (Connection connection = dataSource.getConnection();
+			 PreparedStatement statement = connection.prepareStatement(FIND_GENRE_BY_ID)) {
+			statement.setLong(1, id);
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					return resultSet.getString("name");
+				} else {
+					return null;
+				}
+			}
+		} catch (SQLException ex) {
+			throw new RepositoryException(ex);
+		}
+	}
+
+	public Performance findPerformanceById(long id){
+		try (Connection connection = dataSource.getConnection();
+			 PreparedStatement statement = connection.prepareStatement(FIND_PERFORMANCE_BY_ID)) {
+			statement.setLong(1, id);
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					return new Performance(resultSet.getLong("id"), resultSet.getString("title"), resultSet.getString("performers"),
+							resultSet.getString("date"), resultSet.getLong("genreid"), resultSet.getDouble("price"),
+							resultSet.getInt("freeseats"));
+				} else {
+					return null;
+				}
 			}
 		} catch (SQLException ex) {
 			throw new RepositoryException(ex);

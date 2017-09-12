@@ -7,12 +7,12 @@ public class Performance {
 	private long id;
 	private String title;
 	private String performers;
-	private Date date;
+	private String date;
 	private long genreid;
 	private double price;
 	private int freeseats;
 
-	public Performance(long id, String title, String performers, Date date, long genreid, double price, int freeseats) {
+	public Performance(long id, String title, String performers, String date, long genreid, double price, int freeseats) {
 		this.id = id;
 		this.title = title;
 		this.performers = performers;
@@ -46,11 +46,12 @@ public class Performance {
 		this.performers = performers;
 	}
 
-	public Date getDate() {
-		return date;
+	public String getDate() {
+		String date2 = date.substring(0,date.length()-5);
+		return date2;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

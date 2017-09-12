@@ -1,7 +1,7 @@
 <%@tag description='taalkeuze' pageEncoding='UTF-8' %>
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 
-<c:set value='${requestScope["javax.servlet.forward.request_uri"]}' var='redirectURL'/>
+<c:set value='${requestScope["javax.servlet.forward.request_uri"]}?${requestScope["javax.servlet.forward.query_string"]}' var='redirectURL'/>
 
 <c:url value='languages.htm' var='nlBEURL'>
     <c:param name='language' value='nl'/>

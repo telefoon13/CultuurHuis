@@ -10,9 +10,35 @@
     <vdab:head title="${titel}"/>
 </head>
 <body>
-<vdab:languages/>
 <vdab:menu/>
 <h1>${titel}</h1>
+<form method="post">
+<dl>
+    <dt><fmt:message key="performance"/></dt>
+    <dd>${performance.title}</dd>
 
+    <dt><fmt:message key="performers"/></dt>
+    <dd>${performance.performers}</dd>
+
+    <dt><fmt:message key="date"/></dt>
+    <dd>${performance.date}</dd>
+
+    <dt><fmt:message key="price"/> </dt>
+    <dd>&euro; ${performance.price}</dd>
+
+    <dt><fmt:message key="freeSeats"/></dt>
+    <dd>${performance.freeseats}</dd>
+
+    <dt></dt>
+    <dd><input autofocus type="number" min="1" max="${performance.freeseats}" name="numbOfTickets"
+               <c:if test="${basket ne null}">
+               value="${basket[performance.id]}"
+    </c:if>
+    ><span>${error}</span></dd>
+
+    <dt><input type="hidden" name="performanceid" value="${performance.id}"></dt>
+    <dd><input type="submit" name="reserveTickets" value='<fmt:message key="reserve"/>'></dd>
+</dl>
+</form>
 </body>
 </html>

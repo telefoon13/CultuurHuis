@@ -33,6 +33,7 @@ public class PerformancesServlet extends HttpServlet {
 		if (request.getParameter("genre") != null){
 			long genreid = Long.parseLong(request.getParameter("genre"));
 			request.setAttribute("performances", performancesRepository.findPerformanceByGenre(genreid));
+			request.setAttribute("actifGenre", performancesRepository.findGenreById(genreid));
 		}
 		request.setAttribute("genres", performancesRepository.findAllGenres());
 		request.getRequestDispatcher(VIEW).forward(request,response);
