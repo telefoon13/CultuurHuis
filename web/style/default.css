@@ -54,6 +54,7 @@ a:active{
 nav{
     clear: both;
     float: none;
+    padding-left: 50px;
 }
 nav ul {
     background-color: #1B3E3E;

@@ -6,7 +6,6 @@ import be.vdab.enteties.Performance;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public class PerformancesRepository extends AbstractRepository {
 
