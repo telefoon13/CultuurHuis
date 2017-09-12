@@ -14,6 +14,8 @@ public class PerformancesRepository extends AbstractRepository {
 	private static final String FIND_GENRE_BY_ID = "SELECT * FROM genres WHERE id = ?";
 	private static final String FIND_PERFORMANCE_BY_GENRE = "SELECT * FROM performances WHERE genreid = ? AND date >= NOW() ORDER BY date ASC ";
 	private static final String FIND_PERFORMANCE_BY_ID = "SELECT * FROM performances WHERE id = ?";
+	private static final String INSERT = "INSERT INTO reservations (userid,performanceid,seats) VALUES (?, ?, ?);";
+	private static final String UPDATE = "UPDATE performances SET freeseats=freeseats-? WHERE id=?";
 
 	public List<Genre> findAllGenres(){
 		try(Connection connection = dataSource.getConnection();
@@ -86,6 +88,28 @@ public class PerformancesRepository extends AbstractRepository {
 			}
 		} catch (SQLException ex) {
 			throw new RepositoryException(ex);
+		}
+	}
+
+	public boolean confirmTickets(long userid, long performanceid, long seats){
+		try (Connection connection = dataSource.getConnection();
+			 PreparedStatement statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+			 PreparedStatement statement2 = connection.prepareStatement(UPDATE, Statement.RETURN_GENERATED_KEYS)) {
+			statement.setLong(1,userid);
+			statement.setLong(2,performanceid);
+			statement.setLong(3,seats);
+			statement2.setLong(1,seats);
+			statement2.setLong(2,performanceid);
+			statement.executeUpdate();
+			statement2.executeUpdate();
+			try (ResultSet resultSet = statement.getGeneratedKeys();
+				 ResultSet resultSet2 = statement2.getGeneratedKeys()) {
+				resultSet.next();
+				resultSet2.next();
+				return true;
+			}
+		} catch (SQLException ex) {
+			return false;
 		}
 	}
 

@@ -1,5 +1,6 @@
 package be.vdab.servlets;
 
+import be.vdab.enteties.Performance;
 import be.vdab.enteties.User;
 import be.vdab.repositories.PerformancesRepository;
 import be.vdab.repositories.UserRepository;
@@ -22,6 +23,7 @@ public class ConfirmReservationsServlet extends HttpServlet {
 
 	private static final long serialVersionUID =1L;
 	private static final String VIEW = "/WEB-INF/JSP/confirmReservations.jsp";
+	private static final String REDIRECT_URL = "/WEB-INF/JSP/reservations.jsp";
 	private final transient PerformancesRepository performancesRepository = new PerformancesRepository();
 	private final transient UserRepository userRepository = new UserRepository();
 	private static final String USERNAME_PATTERN = "^[a-zA-Z0-9._-]{3,40}$";
@@ -84,18 +86,43 @@ public class ConfirmReservationsServlet extends HttpServlet {
 
 		//Confirm
 		if (request.getParameter("confirmReser") != null){
+			if (session.getAttribute("user") == null){
+				session.removeAttribute("user");
+			} else {
+				Map<Performance,Integer> basketMap = (HashMap)session.getAttribute("basket");
+				Map<Performance,Long> doneMap = new HashMap<>();
+				Map<Performance,Long> failedMap = new HashMap<>();
+				for (Map.Entry<Performance,Integer> entry : basketMap.entrySet()){
+					Performance performance = entry.getKey();
+					User user = (User) session.getAttribute("user");
+					long performanceid = performance.getId();
+					long freeSeats = performance.getFreeseats();
+					long numTickets = (long) entry.getValue();
+					long userid = user.getId();
+					request.setAttribute("numtickets", numTickets);
+					request.setAttribute("freeseats", freeSeats);
+					boolean done = performancesRepository.confirmTickets(userid,performanceid,numTickets);
+					if (done){
+						doneMap.put(performance, numTickets);
+						int newfreeSeat = (int)freeSeats-(int)numTickets;
+						performance.setFreeseats(newfreeSeat);
+					} else {
+						failedMap.put(performance, numTickets);
+					}
+				}
+				request.setAttribute("doneMap", doneMap);
+				request.setAttribute("failedMap", failedMap);
 
+				session.removeAttribute("basket");
+				request.getRequestDispatcher(REDIRECT_URL).forward(request, response);
+			}
+		} else {
+
+			request.getRequestDispatcher(VIEW).forward(request, response);
 		}
-
-		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		if (request.getParameter("logout") != ""){
-			HttpSession session = request.getSession();
-			session.removeAttribute("user");
-		}
 
 		request.getRequestDispatcher(VIEW).forward(request,response);
 

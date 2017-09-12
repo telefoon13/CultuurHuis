@@ -14,13 +14,11 @@
             <c:choose>
                 <%-- Zonder inlog session --%>
                 <c:when test="${user.username eq null}">
-                    <li><a href="<c:url value="/login.htm"/>"><fmt:message key="login"/></a></li>
                     <li><a href="<c:url value="/signup.htm"/>"><fmt:message key="signup"/></a></li>
                 </c:when>
                 <%-- Met inlog session --%>
                 <c:otherwise>
                     <li><a href="<c:url value="/reservations.htm"/>"><fmt:message key="reservations"/></a></li>
-                    <li><a href="<c:url value="/login.htm?logout=logout"/>"><fmt:message key="logout"/></a></li>
                 </c:otherwise>
             </c:choose>
             <c:if test="${basket ne null}">

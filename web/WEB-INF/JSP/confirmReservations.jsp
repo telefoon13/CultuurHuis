@@ -12,7 +12,7 @@
 <body>
 <vdab:menu/>
 <h1>${titel}</h1>
-<h2><fmt:message key="step1"/> <fmt:message key="login"/> </h2>
+<h2><fmt:message key="step1"/><fmt:message key="login"/> </h2>
 
 <form method="post">
     <c:choose>
@@ -24,15 +24,17 @@
                 <label><dt><fmt:message key="password"/></dt>
                     <dd><input type="password" name="password">
                         <span>${faults.password}</span></dd></label>
-                <dt></dt>
+                <dt>&emsp;</dt>
                 <dd><input type="submit" name="loginKnop" value='<fmt:message key="login"/>' id="loginKnop"></dd>
+                <dt>&emsp;</dt>
+                <dd><input type="submit" value="<fmt:message key="signup"/>"></dd>
             </dl>
         </c:when>
         <c:otherwise>
             <dl>
                 <dt><fmt:message key="youAreSignedIn"/></dt>
-                <dd>${user.lastname} ${user.prename} ${user.street} ${user.streetnr} ${user.zipcode} ${user.city}
-                    <input type="submit" name="logoutKnop" value='<fmt:message key="logout"/>' id="logoutKnop"></dd>
+                <dd><br>${user.lastname} ${user.prename}, ${user.street} ${user.streetnr}, ${user.zipcode} ${user.city}
+                    <br><br><input type="submit" name="logoutKnop" value='<fmt:message key="logout"/>' id="logoutKnop"></dd>
             </dl>
         </c:otherwise>
     </c:choose>

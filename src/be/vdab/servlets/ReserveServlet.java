@@ -37,6 +37,8 @@ public class ReserveServlet extends HttpServlet {
 		//Te veel tickets ingegeven
 		if (performance.getFreeseats() < numbOfTickets){
 			request.setAttribute("error", "toManyTickets");
+			long id = Long.parseLong(request.getParameter("id"));
+			request.setAttribute("performance", performancesRepository.findPerformanceById(id));
 			request.getRequestDispatcher(VIEW).forward(request,response);
 		//Correct aantal tickets
 		} else {

@@ -30,11 +30,11 @@
     <dd>${performance.freeseats}</dd>
 
     <dt></dt>
-    <dd><input autofocus type="number" min="1" max="${performance.freeseats}" name="numbOfTickets"
+    <dd><label><input autofocus type="number" min="1" max="${performance.freeseats}" name="numbOfTickets"
                <c:if test="${basket ne null}">
-               value="${basket[performance.id]}"
+               value="${basket[performance.id].value}"
     </c:if>
-    ><span>${error}</span></dd>
+    ><span><c:if test="${!empty error}"><fmt:message key="${error}"/></c:if></span></label></dd>
 
     <dt><input type="hidden" name="performanceid" value="${performance.id}"></dt>
     <dd><input type="submit" name="reserveTickets" value='<fmt:message key="reserve"/>'></dd>
