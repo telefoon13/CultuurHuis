@@ -23,7 +23,7 @@ public class ConfirmReservationsServlet extends HttpServlet {
 
 	private static final long serialVersionUID =1L;
 	private static final String VIEW = "/WEB-INF/JSP/confirmReservations.jsp";
-	private static final String REDIRECT_URL = "/WEB-INF/JSP/reservations.jsp";
+	private static final String REDIRECT_URL = "/WEB-INF/JSP/reservations.htm";
 	private final transient PerformancesRepository performancesRepository = new PerformancesRepository();
 	private final transient UserRepository userRepository = new UserRepository();
 	private static final String USERNAME_PATTERN = "^[a-zA-Z0-9._-]{3,40}$";

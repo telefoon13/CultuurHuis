@@ -12,7 +12,8 @@ public class UserRepository extends AbstractRepository {
 
 	private static final String SELECT_USER = "SELECT * FROM users WHERE username = ?";
 	private static final String SELECT_USER_BY_EMAIL = "SELECT email FROM users WHERE email = ?";
-	private static final String SIGNUP = "INSERT INTO users (username,email,`password`) VALUES (?, ?, ?)";
+	private static final String SIGNUP =
+			"INSERT INTO users (prename,lastname,street,streetnr,zipcode,city,username,email,`password`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String SALT = "456?Mike.Dhoore?123";
 
 	public boolean checkPass(String username, String password){
@@ -30,14 +31,20 @@ public class UserRepository extends AbstractRepository {
 		}
 	}
 
-	public boolean signup(String username, String email, String pass){
+	public boolean signup(String prename, String lastname, String street, String streetnr, String zipcode, String city, String username, String email, String pass){
 		try (Connection connection = dataSource.getConnection();
 			 PreparedStatement statement = connection.prepareStatement(SIGNUP, Statement.RETURN_GENERATED_KEYS)) {
 			String saltedPassword = SALT + pass;
 			String hashedPassword = generateHash(saltedPassword);
-			statement.setString(1, username);
-			statement.setString(2, email);
-			statement.setString(3, hashedPassword);
+			statement.setString(1, prename);
+			statement.setString(2, lastname);
+			statement.setString(3, street);
+			statement.setString(4, streetnr);
+			statement.setString(5, zipcode);
+			statement.setString(6, city);
+			statement.setString(7, username);
+			statement.setString(8, email);
+			statement.setString(9, hashedPassword);
 			statement.executeUpdate();
 			try (ResultSet resultSet = statement.getGeneratedKeys()) {
 				resultSet.next();
