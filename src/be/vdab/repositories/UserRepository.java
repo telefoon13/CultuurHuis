@@ -10,18 +10,17 @@ import java.util.logging.Logger;
 
 public class UserRepository extends AbstractRepository {
 
-	private static final String SELECT_USER = "SELECT * FROM users WHERE gebruikersnaam = ?";
+	private static final String SELECT_USER = "SELECT * FROM users WHERE username = ?";
 	private static final String SELECT_USER_BY_EMAIL = "SELECT email FROM users WHERE email = ?";
-	private static final String SIGNUP = "INSERT INTO users (gebruikersnaam,email,pass) VALUES (?, ?, ?)";
-	private final static Logger LOGGER = Logger.getLogger(UserRepository.class.getName());
+	private static final String SIGNUP = "INSERT INTO users (username,email,`password`) VALUES (?, ?, ?)";
 	private static final String SALT = "456?Mike.Dhoore?123";
 
-	public boolean checkPass(String gebruikersnaam, String password){
-		User user = userExist(gebruikersnaam);
+	public boolean checkPass(String username, String password){
+		User user = userExist(username);
 		if (user != null) {
 			String saltedPassword = SALT + password;
 			String hashedPassword = generateHash(saltedPassword);
-			if (user.getPass().equals(hashedPassword)) {
+			if (user.getPassword().equals(hashedPassword)) {
 				return true;
 			} else {
 				return false;
@@ -31,12 +30,12 @@ public class UserRepository extends AbstractRepository {
 		}
 	}
 
-	public boolean signup(String gebruikersnaam, String email, String pass){
+	public boolean signup(String username, String email, String pass){
 		try (Connection connection = dataSource.getConnection();
 			 PreparedStatement statement = connection.prepareStatement(SIGNUP, Statement.RETURN_GENERATED_KEYS)) {
 			String saltedPassword = SALT + pass;
 			String hashedPassword = generateHash(saltedPassword);
-			statement.setString(1, gebruikersnaam);
+			statement.setString(1, username);
 			statement.setString(2, email);
 			statement.setString(3, hashedPassword);
 			statement.executeUpdate();
@@ -45,25 +44,32 @@ public class UserRepository extends AbstractRepository {
 				return true;
 			}
 		} catch (SQLException ex) {
-			LOGGER.log(Level.SEVERE, "DB probleem (signup)", ex);
 			throw new RepositoryException(ex);
 		}
 	}
 
-	public User userExist(String gebruikersnaam){
+	public User userExist(String username){
 		try (Connection connection = dataSource.getConnection();
 			 PreparedStatement statement = connection.prepareStatement(SELECT_USER)) {
-				statement.setString(1, gebruikersnaam);
+				statement.setString(1, username);
 				try (ResultSet resultSet = statement.executeQuery()) {
 					if (resultSet.next()) {
-						return new User(resultSet.getLong("id"), resultSet.getString("gebruikersnaam"),
-								resultSet.getString("email"), resultSet.getString("pass"));
+						return new User(
+								resultSet.getLong("id"),
+								resultSet.getString("prename"),
+								resultSet.getString("lastname"),
+								resultSet.getString("street"),
+								resultSet.getString("streetnr"),
+								resultSet.getString("zipcode"),
+								resultSet.getString("city"),
+								resultSet.getString("username"),
+								resultSet.getString("email"),
+								resultSet.getString("password"));
 					} else {
 						return null;
 				}
 			}
 		} catch (SQLException ex) {
-			LOGGER.log(Level.SEVERE,"DB probleem(UserExist)",ex);
 			throw new RepositoryException(ex);
 		}
 	}
@@ -80,7 +86,6 @@ public class UserRepository extends AbstractRepository {
 				}
 			}
 		} catch (SQLException ex) {
-			LOGGER.log(Level.SEVERE,"DB probleem(UserExist)",ex);
 			throw new RepositoryException(ex);
 		}
 	}
@@ -99,7 +104,6 @@ public class UserRepository extends AbstractRepository {
 				hash.append(digits[b & 0x0f]);
 			}
 		} catch (NoSuchAlgorithmException ex) {
-			LOGGER.log(Level.SEVERE,"Hash probleem",ex);
 			throw new RepositoryException(ex);
 		}
 		return hash.toString();

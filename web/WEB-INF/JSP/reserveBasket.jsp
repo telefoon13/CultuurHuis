@@ -43,10 +43,6 @@
     </tr>
 </table>
     </form>
-    ${test1}<br>
-    ${test2}<br>
-    ${test3}<br>
-    ${test4}<br>
 </c:if>
 </body>
 </html>

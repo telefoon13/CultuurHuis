@@ -3,33 +3,91 @@ package be.vdab.enteties;
 public class User {
 
 	private long id;
-	private String gebruikersnaam;
+	private String prename;
+	private String lastname;
+	private String street;
+	private String streetnr;
+	private String zipcode;
+	private String city;
+	private String username;
 	private String email;
-	private String pass;
+	private String password;
 
-	public User(long id,String gebruikersnaam, String email, String pass) {
+	public User(long id, String prename, String lastname, String street, String streetnr, String zipcode, String city, String username, String email, String password) {
 		this.id = id;
-		setGebruikersnaam(gebruikersnaam);
+		this.prename = prename;
+		this.lastname = lastname;
+		this.street = street;
+		this.streetnr = streetnr;
+		this.zipcode = zipcode;
+		this.city = city;
+		this.username = username;
 		this.email = email;
-		this.pass = pass;
+		this.password = password;
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long id){
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public String getGebruikersnaam() {
-		return gebruikersnaam;
+	public String getPrename() {
+		return prename;
 	}
 
-	private void setGebruikersnaam(String gebruikersnaam) {
-		if (gebruikersnaam != null && !gebruikersnaam.isEmpty()) {
-			this.gebruikersnaam = gebruikersnaam;
-		}
+	public void setPrename(String prename) {
+		this.prename = prename;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getStreetnr() {
+		return streetnr;
+	}
+
+	public void setStreetnr(String streetnr) {
+		this.streetnr = streetnr;
+	}
+
+	public String getZipcode() {
+		return zipcode;
+	}
+
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getEmail() {
@@ -40,11 +98,11 @@ public class User {
 		this.email = email;
 	}
 
-	public String getPass() {
-		return pass;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
