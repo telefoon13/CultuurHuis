@@ -1,7 +1,5 @@
 package be.vdab.enteties;
 
-import java.sql.Date;
-
 public class Performance {
 
 	private long id;
@@ -47,7 +45,7 @@ public class Performance {
 	}
 
 	public String getDate() {
-		String date2 = date.substring(0,date.length()-5);
+		String date2 = date.substring(0, date.length() - 5);
 		return date2;
 	}
 

@@ -14,38 +14,38 @@
 
 <!-- Genre menu balk hier -->
 <c:forEach var="genre" items="${genres}" varStatus="status">
-<a href="<c:url value="/performances.htm?genre=${genre.id}"/> ">${genre.name}</a>
-<c:if test="${not status.last}">
-    &nbsp;|&nbsp;
-</c:if>
+    <a href="<c:url value="/performances.htm?genre=${genre.id}"/> ">${genre.name}</a>
+    <c:if test="${not status.last}">
+        &nbsp;|&nbsp;
+    </c:if>
 </c:forEach>
 <h1>${titel}</h1>
 <c:if test="${performances ne null}">
     <h2>${actifGenre} : <fmt:message key="performances"/></h2>
-<table class="performancesTable">
-    <tr class="tableTitle">
-        <th width="20%"><fmt:message key="date"/></th>
-        <th><fmt:message key="title"/></th>
-        <th><fmt:message key="performers"/></th>
-        <th width="10%"><fmt:message key="price"/></th>
-        <th width="10%"><fmt:message key="freeSeats"/></th>
-        <th width="10%"><fmt:message key="reserve"/></th>
-    </tr>
-    <c:forEach var="performance" items="${performances}" varStatus="status">
-    <tr class="${status.index mod 2 eq 0 ? "tableLight" : "tableDark"}">
-        <th>${performance.date}</th>
-        <th>${performance.title}</th>
-        <th>${performance.performers}</th>
-        <th>${performance.price}</th>
-        <th>${performance.freeseats}</th>
-        <th>
-            <c:if test="${performance.freeseats > 0}">
-                <a href="<c:url value="/reserve.htm?id=${performance.id}"/>"><fmt:message key="reserve"/></a>
-            </c:if>
-        </th>
-    </tr>
-    </c:forEach>
-</table>
+    <table class="performancesTable">
+        <tr class="tableTitle">
+            <th width="20%"><fmt:message key="date"/></th>
+            <th><fmt:message key="title"/></th>
+            <th><fmt:message key="performers"/></th>
+            <th width="10%"><fmt:message key="price"/></th>
+            <th width="10%"><fmt:message key="freeSeats"/></th>
+            <th width="10%"><fmt:message key="reserve"/></th>
+        </tr>
+        <c:forEach var="performance" items="${performances}" varStatus="status">
+            <tr class="${status.index mod 2 eq 0 ? "tableLight" : "tableDark"}">
+                <th>${performance.date}</th>
+                <th>${performance.title}</th>
+                <th>${performance.performers}</th>
+                <th>&euro; ${performance.price}</th>
+                <th>${performance.freeseats}</th>
+                <th>
+                    <c:if test="${performance.freeseats > 0}">
+                        <a href="<c:url value="/reserve.htm?id=${performance.id}"/>"><fmt:message key="reserve"/></a>
+                    </c:if>
+                </th>
+            </tr>
+        </c:forEach>
+    </table>
 </c:if>
 </body>
 </html>

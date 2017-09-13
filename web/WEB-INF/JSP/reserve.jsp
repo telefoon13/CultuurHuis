@@ -13,32 +13,32 @@
 <vdab:menu/>
 <h1>${titel}</h1>
 <form method="post">
-<dl>
-    <dt><fmt:message key="performance"/></dt>
-    <dd>${performance.title}</dd>
+    <dl>
+        <dt><fmt:message key="performance"/> :</dt>
+        <dd>${performance.title}</dd>
 
-    <dt><fmt:message key="performers"/></dt>
-    <dd>${performance.performers}</dd>
+        <dt><fmt:message key="performers"/> :</dt>
+        <dd>${performance.performers}</dd>
 
-    <dt><fmt:message key="date"/></dt>
-    <dd>${performance.date}</dd>
+        <dt><fmt:message key="date"/> :</dt>
+        <dd>${performance.date}</dd>
 
-    <dt><fmt:message key="price"/> </dt>
-    <dd>&euro; ${performance.price}</dd>
+        <dt><fmt:message key="price"/> :</dt>
+        <dd>&euro; ${performance.price}</dd>
 
-    <dt><fmt:message key="freeSeats"/></dt>
-    <dd>${performance.freeseats}</dd>
+        <dt><fmt:message key="freeSeats"/> :</dt>
+        <dd>${performance.freeseats}</dd>
 
-    <dt></dt>
-    <dd><label><input autofocus type="number" min="1" max="${performance.freeseats}" name="numbOfTickets"
-               <c:if test="${basket ne null}">
-               value="${basket[performance.id].value}"
-    </c:if>
-    ><span><c:if test="${!empty error}"><fmt:message key="${error}"/></c:if></span></label></dd>
+        <dt><fmt:message key="tickets"/> :</dt>
+        <dd><label><input autofocus type="number" min="1" max="${performance.freeseats}" name="numbOfTickets"
+        <c:if test="${basket ne null}">
+                          value="${basket[performance]}"
+        </c:if>
+        ><span><c:if test="${!empty error}"><fmt:message key="${error}"/></c:if></span></label></dd>
 
-    <dt><input type="hidden" name="performanceid" value="${performance.id}"></dt>
-    <dd><input type="submit" name="reserveTickets" value='<fmt:message key="reserve"/>'></dd>
-</dl>
+        <dt><input type="hidden" name="performanceid" value="${performance.id}"></dt>
+        <dd><input type="submit" name="reserveTickets" value='<fmt:message key="reserve"/>'></dd>
+    </dl>
 </form>
 </body>
 </html>

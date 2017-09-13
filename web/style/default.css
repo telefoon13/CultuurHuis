@@ -11,50 +11,45 @@
 ************************/
 
 /* STANDAARD BODY */
-body{
+body {
     background-color: #607E7E;
     color: #0E3232;
-    font-family: Arial,sans-serif;
+    font-family: Arial, sans-serif;
 }
 
-h1{
+h1 {
     color: #2F4F4F;
     font-weight: bold;
     font-size: 2.5em;
 }
 
-input{
-
-}
-
-input[type="submit"]{
-
-}
-
-img{
-
-}
-a{
+a {
     color: #0E3232;
 }
-a:hover{
+
+a:hover {
     color: #436666;
     text-decoration: none;
 }
-a:active{
+
+a:active {
     color: #0E3232;
 }
+
 dd, dt {
     margin-left: 0;
 }
 
 dt {
-    margin-top: 0.5em;
+    margin: 0.4em;
 }
 
 dd {
     font-weight: bold;
+    margin: 0.4em;
+    margin-bottom: 0.7em;
 }
+
 label span {
     background-color: red;
     border-bottom-right-radius: 0.5em;
@@ -79,14 +74,16 @@ label {
     cursor: pointer;
     display: block;
 }
+
 /****************************/
 
 /* MENU */
-nav{
+nav {
     clear: both;
     float: none;
     padding-left: 50px;
 }
+
 nav ul {
     background-color: #1B3E3E;
     padding: 0.4em;
@@ -110,19 +107,21 @@ nav li a:hover {
     color: #436666;
 }
 
-.menuLogo{
+.menuLogo {
     float: left;
     vertical-align: middle;
     margin: 0 1em;
     height: 100%;
     display: inline-block;
 }
-.menuLogo img{
+
+.menuLogo img {
     vertical-align: middle;
     display: inline-block;
     height: 100%;
 }
-.titel{
+
+.titel {
     float: left;
     font-size: 5em;
     font-weight: bolder;
@@ -130,39 +129,46 @@ nav li a:hover {
     display: inline-block;
     height: 100%;
 }
-.titel text{
+
+.titel text {
     vertical-align: middle;
     display: inline-block;
     height: 100%;
 }
+
 /****************************/
 
 /* LANGUAGES BAR */
-.languages{
+.languages {
     margin-top: 1em;
     margin-bottom: 1em;
 }
-.languages img{
+
+.languages img {
     border: 0;
     margin-left: 1em;
 }
+
 /****************************/
 
 /* Performances table */
-.performancesTable{
+.performancesTable {
     border: 1px solid #0E3232;
     width: 100%;
 }
-.tableTitle{
+
+.tableTitle {
     background-color: #0E3232;
     color: #607E7E;
     height: 1.5em;
     border: 1px solid #0E3232;
 }
-.tableDark{
+
+.tableDark {
     background-color: #2F4F4F;
     height: 1em;
 }
+
 .tableLight {
     background-color: #436666;
     height: 1em;

@@ -18,17 +18,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-@WebServlet(urlPatterns = "/confirmreservations.htm",name = "ConfirmReservationServlet")
+@WebServlet(urlPatterns = "/confirmreservations.htm", name = "ConfirmReservationServlet")
 public class ConfirmReservationsServlet extends HttpServlet {
 
-	private static final long serialVersionUID =1L;
+	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "/WEB-INF/JSP/confirmReservations.jsp";
-	private static final String REDIRECT_URL = "/WEB-INF/JSP/reservations.htm";
+	private static final String REDIRECT_URL = "/WEB-INF/JSP/reservations.jsp";
+	private static final String REDIRECT_URL_SIGNUP = "/WEB-INF/JSP/signup.jsp";
+	private static final String USERNAME_PATTERN = "^[a-zA-Z0-9._-]{3,40}$";
 	private final transient PerformancesRepository performancesRepository = new PerformancesRepository();
 	private final transient UserRepository userRepository = new UserRepository();
-	private static final String USERNAME_PATTERN = "^[a-zA-Z0-9._-]{3,40}$";
-	private static final String PASS_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.?!])(?=\\S+$).{8,40}$";
-
 
 	@Resource(name = PerformancesRepository.JNDI_NAME)
 	public void setDataSource(DataSource dataSource) {
@@ -39,60 +38,52 @@ public class ConfirmReservationsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-
 		//LoginKnop
-		if (request.getParameter("loginKnop") != null){
+		if (request.getParameter("loginKnop") != null) {
 			Map<String, String> faults = new HashMap<>();
 			boolean chekPass = userRepository.checkPass(request.getParameter("username"), request.getParameter("password"));
 			String username = request.getParameter("username");
 			String pass = request.getParameter("password");
 			User userExist = userRepository.userExist(username);
 			Pattern pattern = Pattern.compile(USERNAME_PATTERN);
-			Pattern passPattern = Pattern.compile(PASS_PATTERN);
-
-
 			//Gebruikersnaam check
-			if (username == null || username.isEmpty()){
+			if (username == null || username.isEmpty()) {
 				faults.put("username", "Gelieven een gebruikersnaam in te vullen.");
-			}
-			else if (!pattern.matcher(username).matches()){
+			} else if (!pattern.matcher(username).matches()) {
 				faults.put("username", "Gebruikersnaam voldoet niet aan de voorwaarden (a-Z . - _) min 3 max 40 tekens.");
 			}
 			if (userExist == null) {
 				faults.put("username", "Deze gebruikersnaam komt niet voor in onze database.");
 			}
-
 			//Pass check
-			if (pass == null || pass.isEmpty()){
-				faults.put("password","Gelieven een wachtwoord in te vullen.");
+			if (pass == null || pass.isEmpty()) {
+				faults.put("password", "Gelieven een wachtwoord in te vullen.");
 			}
-			if (!chekPass){
-				faults.put("password","Dit wachtwoord is niet correct.");
+			if (!chekPass) {
+				faults.put("password", "Dit wachtwoord is niet correct.");
 			}
-
 			//Geen fouten
-			if (faults.isEmpty() && userExist != null && chekPass){
+			if (faults.isEmpty() && userExist != null && chekPass) {
 				session.setAttribute("user", userExist);
 			} else {
 				request.setAttribute("faults", faults);
 			}
 		}
 
-
 		//Logout
-		if (request.getParameter("logoutKnop") != null){
+		if (request.getParameter("logoutKnop") != null) {
 			session.removeAttribute("user");
 		}
 
 		//Confirm
-		if (request.getParameter("confirmReser") != null){
-			if (session.getAttribute("user") == null){
+		if (request.getParameter("confirmReser") != null) {
+			if (session.getAttribute("user") == null) {
 				session.removeAttribute("user");
 			} else {
-				Map<Performance,Integer> basketMap = (HashMap)session.getAttribute("basket");
-				Map<Performance,Long> doneMap = new HashMap<>();
-				Map<Performance,Long> failedMap = new HashMap<>();
-				for (Map.Entry<Performance,Integer> entry : basketMap.entrySet()){
+				Map<Performance, Integer> basketMap = (HashMap) session.getAttribute("basket");
+				Map<Performance, Long> doneMap = new HashMap<>();
+				Map<Performance, Long> failedMap = new HashMap<>();
+				for (Map.Entry<Performance, Integer> entry : basketMap.entrySet()) {
 					Performance performance = entry.getKey();
 					User user = (User) session.getAttribute("user");
 					long performanceid = performance.getId();
@@ -101,10 +92,10 @@ public class ConfirmReservationsServlet extends HttpServlet {
 					long userid = user.getId();
 					request.setAttribute("numtickets", numTickets);
 					request.setAttribute("freeseats", freeSeats);
-					boolean done = performancesRepository.confirmTickets(userid,performanceid,numTickets);
-					if (done){
+					boolean done = performancesRepository.confirmTickets(userid, performanceid, numTickets);
+					if (done) {
 						doneMap.put(performance, numTickets);
-						int newfreeSeat = (int)freeSeats-(int)numTickets;
+						int newfreeSeat = (int) freeSeats - (int) numTickets;
 						performance.setFreeseats(newfreeSeat);
 					} else {
 						failedMap.put(performance, numTickets);
@@ -112,19 +103,19 @@ public class ConfirmReservationsServlet extends HttpServlet {
 				}
 				request.setAttribute("doneMap", doneMap);
 				request.setAttribute("failedMap", failedMap);
-
 				session.removeAttribute("basket");
 				request.getRequestDispatcher(REDIRECT_URL).forward(request, response);
-			}
+			}//I'm new
+		} else if (request.getParameter("signupButton") != null) {
+			request.getRequestDispatcher(REDIRECT_URL_SIGNUP).forward(request, response);
 		} else {
-
 			request.getRequestDispatcher(VIEW).forward(request, response);
 		}
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.getRequestDispatcher(VIEW).forward(request,response);
+		request.getRequestDispatcher(VIEW).forward(request, response);
 
 	}
 }

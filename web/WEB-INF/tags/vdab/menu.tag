@@ -11,18 +11,15 @@
         <ul>
             <li><a href="<c:url value="/index.htm"/>"><fmt:message key="home"/></a></li>
             <li><a href="<c:url value="/performances.htm"/>"><fmt:message key="performances"/></a></li>
-            <c:choose>
-                <%-- Zonder inlog session --%>
-                <c:when test="${user.username eq null}">
-                    <li><a href="<c:url value="/signup.htm"/>"><fmt:message key="signup"/></a></li>
-                </c:when>
-                <%-- Met inlog session --%>
-                <c:otherwise>
-                    <li><a href="<c:url value="/reservations.htm"/>"><fmt:message key="reservations"/></a></li>
-                </c:otherwise>
-            </c:choose>
+
+            <c:if test="${user.username eq null}">
+                <li><a href="<c:url value="/signup.htm"/>"><fmt:message key="signup"/></a></li>
+            </c:if>
+
             <c:if test="${basket ne null}">
                 <li><a href="<c:url value="/reserveBasket.htm"/>"><fmt:message key="reserveBasket"/></a></li>
+                <li><a href="<c:url value="/confirmreservations.htm"/>"><fmt:message key="comfirmReservations"/></a>
+                </li>
             </c:if>
         </ul>
     </nav>

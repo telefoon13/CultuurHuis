@@ -2,7 +2,6 @@ package be.vdab.repositories;
 
 import be.vdab.enteties.Genre;
 import be.vdab.enteties.Performance;
-import be.vdab.enteties.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,12 +16,12 @@ public class PerformancesRepository extends AbstractRepository {
 	private static final String INSERT = "INSERT INTO reservations (userid,performanceid,seats) VALUES (?, ?, ?);";
 	private static final String UPDATE = "UPDATE performances SET freeseats=freeseats-? WHERE id=?";
 
-	public List<Genre> findAllGenres(){
-		try(Connection connection = dataSource.getConnection();
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(FIND_ALL_GENRES)) {
+	public List<Genre> findAllGenres() {
+		try (Connection connection = dataSource.getConnection();
+			 Statement statement = connection.createStatement();
+			 ResultSet resultSet = statement.executeQuery(FIND_ALL_GENRES)) {
 			List<Genre> genres = new ArrayList<>();
-			for (long vorigeId = 0; resultSet.next();) {
+			for (long vorigeId = 0; resultSet.next(); ) {
 				long id = resultSet.getLong("id");
 				if (id != vorigeId) {
 					genres.add(new Genre(resultSet.getLong("id"), resultSet.getString("name")));
@@ -35,13 +34,13 @@ public class PerformancesRepository extends AbstractRepository {
 		}
 	}
 
-	public List<Performance> findPerformanceByGenre(long genreid){
+	public List<Performance> findPerformanceByGenre(long genreid) {
 		try (Connection connection = dataSource.getConnection();
 			 PreparedStatement statement = connection.prepareStatement(FIND_PERFORMANCE_BY_GENRE)) {
 			statement.setLong(1, genreid);
 			try (ResultSet resultSet = statement.executeQuery()) {
 				List<Performance> performances = new ArrayList<>();
-				for (long vorigeId = 0; resultSet.next();) {
+				for (long vorigeId = 0; resultSet.next(); ) {
 					long id = resultSet.getLong("id");
 					if (id != vorigeId) {
 						performances.add(new Performance(resultSet.getLong("id"), resultSet.getString("title"), resultSet.getString("performers"),
@@ -57,7 +56,7 @@ public class PerformancesRepository extends AbstractRepository {
 		}
 	}
 
-	public String findGenreById(long id){
+	public String findGenreById(long id) {
 		try (Connection connection = dataSource.getConnection();
 			 PreparedStatement statement = connection.prepareStatement(FIND_GENRE_BY_ID)) {
 			statement.setLong(1, id);
@@ -73,7 +72,7 @@ public class PerformancesRepository extends AbstractRepository {
 		}
 	}
 
-	public Performance findPerformanceById(long id){
+	public Performance findPerformanceById(long id) {
 		try (Connection connection = dataSource.getConnection();
 			 PreparedStatement statement = connection.prepareStatement(FIND_PERFORMANCE_BY_ID)) {
 			statement.setLong(1, id);
@@ -91,15 +90,15 @@ public class PerformancesRepository extends AbstractRepository {
 		}
 	}
 
-	public boolean confirmTickets(long userid, long performanceid, long seats){
+	public boolean confirmTickets(long userid, long performanceid, long seats) {
 		try (Connection connection = dataSource.getConnection();
 			 PreparedStatement statement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			 PreparedStatement statement2 = connection.prepareStatement(UPDATE, Statement.RETURN_GENERATED_KEYS)) {
-			statement.setLong(1,userid);
-			statement.setLong(2,performanceid);
-			statement.setLong(3,seats);
-			statement2.setLong(1,seats);
-			statement2.setLong(2,performanceid);
+			statement.setLong(1, userid);
+			statement.setLong(2, performanceid);
+			statement.setLong(3, seats);
+			statement2.setLong(1, seats);
+			statement2.setLong(2, performanceid);
 			statement.executeUpdate();
 			statement2.executeUpdate();
 			try (ResultSet resultSet = statement.getGeneratedKeys();
@@ -112,6 +111,4 @@ public class PerformancesRepository extends AbstractRepository {
 			return false;
 		}
 	}
-
-
 }
