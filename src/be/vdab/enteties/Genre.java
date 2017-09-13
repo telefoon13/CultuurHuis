@@ -1,5 +1,6 @@
 package be.vdab.enteties;
 
+@SuppressWarnings("unused")
 public class Genre {
 
 	private long id;

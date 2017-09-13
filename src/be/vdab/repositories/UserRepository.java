@@ -20,8 +20,7 @@ public class UserRepository extends AbstractRepository {
 			byte[] hashedBytes = sha.digest(input.getBytes());
 			char[] digits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 					'a', 'b', 'c', 'd', 'e', 'f'};
-			for (int idx = 0; idx < hashedBytes.length; ++idx) {
-				byte b = hashedBytes[idx];
+			for (byte b : hashedBytes) {
 				hash.append(digits[(b & 0xf0) >> 4]);
 				hash.append(digits[b & 0x0f]);
 			}
@@ -36,11 +35,7 @@ public class UserRepository extends AbstractRepository {
 		if (user != null) {
 			String saltedPassword = SALT + password;
 			String hashedPassword = generateHash(saltedPassword);
-			if (user.getPassword().equals(hashedPassword)) {
-				return true;
-			} else {
-				return false;
-			}
+			return user.getPassword().equals(hashedPassword);
 		} else {
 			return false;
 		}
@@ -62,8 +57,8 @@ public class UserRepository extends AbstractRepository {
 			statement.setString(9, hashedPassword);
 			statement.executeUpdate();
 			try (ResultSet resultSet = statement.getGeneratedKeys()) {
-				resultSet.next();
-				return true;
+				return resultSet.next();
+
 			}
 		} catch (SQLException ex) {
 			throw new RepositoryException(ex);
@@ -101,11 +96,7 @@ public class UserRepository extends AbstractRepository {
 			 PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_EMAIL)) {
 			statement.setString(1, email);
 			try (ResultSet resultSet = statement.executeQuery()) {
-				if (resultSet.next()) {
-					return true;
-				} else {
-					return false;
-				}
+				return resultSet.next();
 			}
 		} catch (SQLException ex) {
 			throw new RepositoryException(ex);

@@ -37,7 +37,8 @@ public class ReserveBasketServlet extends HttpServlet {
 		String[] idAlsString = request.getParameterValues("toDeleteId");
 		if (idAlsString != null) {
 			HttpSession session = request.getSession();
-			Set<Long> setId = Arrays.stream(idAlsString).map(id -> Long.parseLong(id)).collect(Collectors.toSet());
+			Set<Long> setId = Arrays.stream(idAlsString).map(Long::parseLong).collect(Collectors.toSet());
+			@SuppressWarnings("unchecked")
 			Map<Performance, Integer> basketMap = (HashMap) session.getAttribute("basket");
 			Set<Performance> basketPerf = basketMap.keySet();
 			for (long idFromDel : setId) {

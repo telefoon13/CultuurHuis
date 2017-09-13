@@ -80,6 +80,7 @@ public class ConfirmReservationsServlet extends HttpServlet {
 			if (session.getAttribute("user") == null) {
 				session.removeAttribute("user");
 			} else {
+				@SuppressWarnings("unchecked")
 				Map<Performance, Integer> basketMap = (HashMap) session.getAttribute("basket");
 				Map<Performance, Long> doneMap = new HashMap<>();
 				Map<Performance, Long> failedMap = new HashMap<>();

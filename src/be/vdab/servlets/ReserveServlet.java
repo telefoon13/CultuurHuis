@@ -44,6 +44,7 @@ public class ReserveServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			//Session basket exist
 			if (session.getAttribute("basket") != null) {
+				@SuppressWarnings("unchecked")
 				Map<Performance, Integer> basketMap = (HashMap) session.getAttribute("basket");
 				basketMap.put(performance, numbOfTickets);
 				session.setAttribute("basket", basketMap);

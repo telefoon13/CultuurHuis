@@ -1,5 +1,6 @@
 package be.vdab.enteties;
 
+@SuppressWarnings("unused")
 public class Performance {
 
 	private long id;
@@ -45,8 +46,7 @@ public class Performance {
 	}
 
 	public String getDate() {
-		String date2 = date.substring(0, date.length() - 5);
-		return date2;
+		return date.substring(0, date.length() - 5);
 	}
 
 	public void setDate(String date) {
@@ -84,9 +84,7 @@ public class Performance {
 
 		Performance that = (Performance) o;
 
-		if (id != that.id) return false;
-		if (genreid != that.genreid) return false;
-		return title.equals(that.title);
+		return id == that.id && genreid == that.genreid && title.equals(that.title);
 	}
 
 	@Override

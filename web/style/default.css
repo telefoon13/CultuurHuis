@@ -46,8 +46,7 @@ dt {
 
 dd {
     font-weight: bold;
-    margin: 0.4em;
-    margin-bottom: 0.7em;
+    margin: 0.4em 0.4em 0.7em;
 }
 
 label span {
@@ -164,11 +163,13 @@ nav li a:hover {
     border: 1px solid #0E3232;
 }
 
+/*noinspection CssUnusedSymbol*/
 .tableDark {
     background-color: #2F4F4F;
     height: 1em;
 }
 
+/*noinspection ALL*/
 .tableLight {
     background-color: #436666;
     height: 1em;

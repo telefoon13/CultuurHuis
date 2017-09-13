@@ -12,6 +12,7 @@
 <body>
 <vdab:menu/>
 <h1>${titel}</h1>
+<jsp:useBean id="basket" scope="session" type="java.util.Map"/>
 <c:if test="${basket ne null}">
     <a href="<c:url value="confirmreservations.htm"/>"><fmt:message key="comfirmReservations"/></a>
     <br><br>
@@ -33,7 +34,7 @@
                     <th>${basketItem.key.performers}</th>
                     <th>&euro; ${basketItem.key.price}</th>
                     <th>${basketItem.value}</th>
-                    <th><input type="checkbox" name="toDeleteId" value="${basketItem.key.id}" id="toDeleteId"/></th>
+                    <th><label><input type="checkbox" name="toDeleteId" value="${basketItem.key.id}" id="toDeleteId"/></label></th>
                 </tr>
                 <c:set value="${totalCost + (basketItem.key.price * basketItem.value)}" var="totalCost"/>
             </c:forEach>

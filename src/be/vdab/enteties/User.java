@@ -1,5 +1,6 @@
 package be.vdab.enteties;
 
+@SuppressWarnings("ALL")
 public class User {
 
 	private long id;
@@ -114,8 +115,7 @@ public class User {
 		User user = (User) o;
 
 		if (id != user.id) return false;
-		if (!username.equals(user.username)) return false;
-		return email.equals(user.email);
+		return username.equals(user.username) && email.equals(user.email);
 	}
 
 	@Override
